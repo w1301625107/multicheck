@@ -1,0 +1,87 @@
+.MultiCheck {
+  display: inline-block;
+  overflow: hidden;
+  background-color: #f7f7f9;
+}
+
+.MultiCheck_label {
+  padding: 5px;
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: 500;
+  background-color: #dadada;
+}
+
+.MultiCheck_columns {
+  display: flex;
+  margin: 10px;
+  padding: 5px;
+  border: 1px solid #dfdfdf;
+  border-radius: 5px;
+}
+
+.MultiCheck_columns_col {
+  display: flex;
+  margin-right: 15px;
+  flex-direction: column;
+}
+
+.MultiCheck_checkbox_wrapper {
+}
+
+.MultiCheck_checkbox {
+  display: inline-block;
+  background: #fff;
+  position: relative;
+  top: 0.1em;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #dadada;
+  border-radius: 3px;
+  box-sizing: border-box;
+  line-height: 0;
+}
+
+.MultiCheck_checkbox-checked {
+  border: 2px solid black;
+}
+
+.MultiCheck_checkbox + span {
+  padding: 0 6px;
+}
+
+.MultiCheck_checkbox_input {
+  opacity: 0;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.MultiCheck_checkbox_inner {
+  position: relative;
+  display: inline-block;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.MultiCheck_checkbox_inner-checked {
+  background: black;
+}
+
+.MultiCheck_checkbox_inner-checked::after {
+  position: absolute;
+  top: 6px;
+  left: 2px;
+  width: 5px;
+  height: 10px;
+  display: block;
+  border: 2px solid #fff;
+  border-top: 0;
+  border-left: 0;
+  transform: rotate(45deg) scale(1) translate(-50%, -50%);
+  content: " ";
+}
