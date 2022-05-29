@@ -35,6 +35,23 @@ const SelectAllOption: Option = {
 
 const CheckboxMemo = memo(Checkbox)
 
+type Fn = (...args: any[]) => any
+
+function useEventCallback(fn: Fn, dependencies: any[]) {
+  const ref = useRef<Fn>(() => {
+    throw new Error('Cannot call an event handler while rendering.');
+  });
+
+  useEffect(() => {
+    ref.current = fn;
+  }, [fn, ...dependencies]);
+
+  return useCallback((...args: any[]) => {
+    const fn = ref.current;
+    return fn(...args);
+  }, [ref]);
+}
+
 const MultiCheck: FC<Props> = (props: Props): JSX.Element => {
   const { label, options, columns = 1, values, onChange } = props
   const [value, setValue] = useState<string[]>(values || [])
@@ -51,7 +68,7 @@ const MultiCheck: FC<Props> = (props: Props): JSX.Element => {
     }
   }
 
-  const toggleOption = (option: Option) => {
+  const toggleOption = useEventCallback((option: Option) => {
     const idx = value.indexOf(option.value)
     const newValue = [...value]
 
@@ -66,16 +83,18 @@ const MultiCheck: FC<Props> = (props: Props): JSX.Element => {
     }
 
     handleChange(newValue)
-  }
+  }, [value, handleChange, setValue])
 
-  const toggleSelectAll = () => {
+  const toggleSelectAll = useEventCallback(() => {
     let newValue: string[] = []
     if (!allChecked) {
       newValue = options.map(option => option.value)
     }
-    setValue(newValue)
+    if (!props.values) {
+      setValue(newValue)
+    }
     handleChange(newValue)
-  }
+  }, [allChecked, handleChange, setValue])
 
   const allCheckedBoxEle = options.length > 0 &&
     <CheckboxMemo
